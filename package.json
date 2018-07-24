@@ -11,7 +11,8 @@
     "type": "git",
     "url": "git+https://github.com/cf301-bhmb-book-list-app/book-list-server.git"
   },
-  "author": "",
+  "author": "<<<<< HEAD
+  "description":Ben Harris and Matthew Brown",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/cf301-bhmb-book-list-app/book-list-server/issues"
