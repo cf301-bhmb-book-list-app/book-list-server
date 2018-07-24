@@ -1,7 +1,7 @@
 {
   "name": "book-list-server",
   "version": "1.0.0",
-  "description": "this is the server file for the lab #11 - book app\r this lab is authored by Ben Harris and Matthew Brown",
+  "description": "",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -11,11 +11,15 @@
     "type": "git",
     "url": "git+https://github.com/cf301-bhmb-book-list-app/book-list-server.git"
   },
-  "author": "<<<<< HEAD
-  "description":Ben Harris and Matthew Brown",
+  "author": "Ben Harris and Matthew Brown",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/cf301-bhmb-book-list-app/book-list-server/issues"
   },
-  "homepage": "https://github.com/cf301-bhmb-book-list-app/book-list-server#readme"
+  "homepage": "https://github.com/cf301-bhmb-book-list-app/book-list-server#readme",
+  "dependencies": {
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "pg": "^7.4.3"
+  }
 }
