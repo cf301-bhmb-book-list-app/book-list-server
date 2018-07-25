@@ -1,53 +1,42 @@
 'use strict';
 
+// Application Dependencies
 const express = require('express');
 const cors = require('cors');
 const pg = require('pg');
 
+// Application Setup
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT; //port
 
+// Database Setup
 let conString = '';
 if (process.platform === 'win32') {
-  //windows
-  conString = 'postgres://localhost:5432/books_app';
+  conString = 'postgres://localhost:5432/books_app'; //windows
 } else if (process.platform === 'darwin') {
-  //mac
-  conString = 'postgres://localhost:5432';
+  conString = 'postgres://localhost:5432'; //mac
 } else if (process.platform === 'linux') {
-  //linux
-  conString = 'postgres://localhost:5432';
+  conString = 'postgres://localhost:5432'; //linux
 } else {
-  console.log('Unsupported OS for database connectivity. Please add variable.');
+  console.log('Unsupported OS for database connectivity. Please add variable.'); //everything else
 }
-
 const client = new pg.Client(conString);
-
-// app.get('/', (req,res) => res.send('Testing 1, 2, 3'));
-// app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
-
-const client = new pg.Client(process.env.DATABASE.url);
 client.connect();
 client.on('error', err => console.error(err));
 
+// Application Middleware
 app.use(cors());
 
-app.get('/tasks', (request, response) => {
-    let SQL = `SELECT * FROM books_app;`;
-    
-    client.query(SQL)
-      .then(results => res.send(results.rows))
-      .catch(console.error);
-  });
-  
-  app.get('*', (request, response) => res.status(403).send('This route does not exist'));
-  
-  app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
-  
-  // PORT=3000
-  
-  // Mac:
-  // DATABASE_URL=postgres://localhost:5432/task_app
-  
-  // Windows:
-  // DATABASE_URL=postgres://USER:PASSWORD@localhost:5432/task_app
+// API Endpoints
+app.get('/api/v1/books', (request, response) => {
+  let SQL = `
+    SELECT book_id, title, author, image_url, isbn, description
+    FROM books;
+  `;
+  client.query(SQL)
+    .then(results => response.send(results.rows))
+    .catch(console.error);
+});
+
+app.get('*', (request, response) => response.status(403).send('This route does not exist'));
+app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
