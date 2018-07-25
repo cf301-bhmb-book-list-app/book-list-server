@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+
+  <!-- Stylesheets-->
+
+  <!-- Application Templates -->
+  <script type="text/x-handlebars-template" id="error-template">
+    <h3>Oops, something went wrong!</h3>
+    <p>{{status}}: {{statusText}}</p>
+  </script>
+
+  <script type="text/x-handlebars-template" id="book-list-template">
+    <li class="book-items" data-bookid={{book_id}}>
+      <div class="book-container">
+        <img src={{image-url}}>
+        <div class="book-overlay">
+          <h3>{{title}}</h3>
+          <p>{{author}}</p>
+        </div>
+      </div>
+  </script>
+</head>
+<body>
+  <!-- HTML LAYOUT -->
+  
+</body>
+</html>
