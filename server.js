@@ -7,19 +7,10 @@ const pg = require('pg');
 
 // Application Setup
 const app = express();
-const PORT = process.env.PORT || 3000; //port assignment
+const PORT = process.env.PORT; //port assignment
 
 // Database Setup
-let conString = '';
-if (process.platform === 'win32') {
-  conString = 'postgres://localhost:5432/books_app'; //windows
-} else if (process.platform === 'darwin') {
-  conString = 'postgres://localhost:5432'; //mac
-} else if (process.platform === 'linux') {
-  conString = 'postgres://localhost:5432'; //linux
-} else {
-  console.log('Unsupported OS for database connectivity. Please add variable.'); //everything else
-}
+let conString = process.env.DATABASE_URL;
 const client = new pg.Client(conString);
 client.connect();
 client.on('error', err => console.error(err));
