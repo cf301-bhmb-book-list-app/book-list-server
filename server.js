@@ -7,7 +7,7 @@ const pg = require('pg');
 
 // Application Setup
 const app = express();
-const PORT = process.env.PORT; //port
+const PORT = process.env.PORT || 3000; //port assignment
 
 // Database Setup
 let conString = '';
