@@ -38,5 +38,5 @@ app.get('/api/v1/books', (request, response) => {
     .catch(console.error);
 });
 
-app.get('*', (request, response) => response.status(403).send('This route does not exist'));
+app.get('*', (request, response) => response.status(404).send('This route does not exist'));
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
