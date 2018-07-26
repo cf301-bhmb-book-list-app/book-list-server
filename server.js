@@ -8,6 +8,7 @@ const pg = require('pg');
 // Application Setup
 const app = express();
 const PORT = process.env.PORT; //port assignment
+// const TOKEN = process.env.TOKEN; // token assignment
 
 // Database Setup
 let conString = process.env.DATABASE_URL;
@@ -19,7 +20,7 @@ client.on('error', err => console.error(err));
 app.use(cors());
 
 // API Endpoint
-app.get('/api/v1/books', (request, response) => {
+app.get('/api/v1/books/', (request, response) => {
   let SQL = `
     SELECT book_id, title, author, image_url, isbn, description
     FROM books;
@@ -28,6 +29,56 @@ app.get('/api/v1/books', (request, response) => {
     .then(results => response.send(results.rows).status(200))
     .catch(console.error);
 });
+
+// TODO: Review 4:08
+// app.get('/api/v1/books/:id', (request, response) => {
+//   let SQL = `
+//     SELECT book_id, title, author, image_url, isbn, description
+//     FROM books;
+//   `;
+//   let values = []
+//   client.query(SQL)
+//     .then(results => response.send(results.rows).status(200))
+//     .catch(console.error);
+// });
+
+// TODO: Review 4:00
+// Handle the posting of API data to database
+// app.post('/api/v1/books', (request, response) => {
+//   let {title, author, isbn, image_url, description} = request.body;
+
+//   let SQL = `
+//     INSERT INTO books(title, author, isbn, image_url, description) VALUES($1, $2, $3, $4, $5);
+//   `;
+//   let values = [title, author, isbn, image_url, description];
+
+//   client.query(SQL, values)
+//     .then(response.sendStatus(201))
+//     .catch(console.error);
+// });
+
+// TODO: Review 4:00
+// app.put('/api/v1/books/:id', (request, response) => {
+//   let SQL = `UPDATE books SET title=$1, author=$2, isbn=$3, image_url=$4`;
+
+//   let SQL = `
+//     INSERT INTO books(title, author, isbn, image_url, description) VALUES($1, $2, $3, $4, $5);
+//   `;
+//   let values = [title, author, isbn, image_url, description];
+
+//   client.query(SQL, values)
+//     .then(response.sendStatus(201))
+//     .catch(console.error);
+// });
+
+// app.delete('/api/v1/books/:id', (request, response) => {
+//   let SQL = `DELETE FROM books WHERE book_id=$1`;
+//   let values = [req.params.id];
+
+//   client.query(SQL, values
+//     .then(() => response.sendStatus(204))
+//     .catch(console.error);
+// })
 
 // Handle all other bad endpoints
 app.get('*', (request, response) => {
