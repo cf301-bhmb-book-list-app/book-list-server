@@ -20,7 +20,7 @@ client.on('error', err => console.error(err));
 app.use(cors());
 
 // API Endpoint
-app.get('/api/v1/books/', (request, response) => {
+app.get('/api/v1/books', (request, response) => {
   let SQL = `
     SELECT book_id, title, author, image_url, isbn, description
     FROM books;
@@ -30,32 +30,33 @@ app.get('/api/v1/books/', (request, response) => {
     .catch(console.error);
 });
 
-// TODO: Review 4:08
-// app.get('/api/v1/books/:id', (request, response) => {
-//   let SQL = `
-//     SELECT book_id, title, author, image_url, isbn, description
-//     FROM books;
-//   `;
-//   let values = []
-//   client.query(SQL)
-//     .then(results => response.send(results.rows).status(200))
-//     .catch(console.error);
-// });
+// TODO: Check for functionality
+// request/response where info comes frm one book
+app.get('/api/v1/books/:id', (request, response) => {
+  let SQL = `
+    SELECT book_id, title, author, image_url, isbn, description
+    FROM books WHERE book_id=$1;`;  
+  let values = [req.params.id];
 
-// TODO: Review 4:00
+  client.query(SQL, values)
+    .then(results => response.send(results.rows).status(200))
+    .catch(console.error);
+});
+
+// TODO: Review for functionality
 // Handle the posting of API data to database
-// app.post('/api/v1/books', (request, response) => {
-//   let {title, author, isbn, image_url, description} = request.body;
+app.post('/api/v1/books', (request, response) => {
+  let {title, author, isbn, image_url, description} = request.body;
 
-//   let SQL = `
-//     INSERT INTO books(title, author, isbn, image_url, description) VALUES($1, $2, $3, $4, $5);
-//   `;
-//   let values = [title, author, isbn, image_url, description];
+  let SQL = `
+    INSERT INTO books(title, author, isbn, image_url, description) VALUES($1, $2, $3, $4, $5);
+  `;
+  let values = [title, author, isbn, image_url, description];
 
-//   client.query(SQL, values)
-//     .then(response.sendStatus(201))
-//     .catch(console.error);
-// });
+  client.query(SQL, values)
+    .then(response.sendStatus(201))
+    .catch(console.error);
+});
 
 // TODO: Review 4:00
 // app.put('/api/v1/books/:id', (request, response) => {
