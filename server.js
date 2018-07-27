@@ -8,7 +8,7 @@ const pg = require('pg');
 // Application Setup
 const app = express();
 const PORT = process.env.PORT; //port assignment
-// const TOKEN = process.env.TOKEN; // token assignment
+const TOKEN = process.env.TOKEN; // token assignment
 
 // Database Setup
 let conString = process.env.DATABASE_URL;
