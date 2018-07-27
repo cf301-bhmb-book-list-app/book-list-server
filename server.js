@@ -18,16 +18,21 @@ client.on('error', err => console.error(err));
 // Application Middleware
 app.use(cors());
 
-// API Endpoints
+// API Endpoint
 app.get('/api/v1/books', (request, response) => {
   let SQL = `
     SELECT book_id, title, author, image_url, isbn, description
     FROM books;
   `;
   client.query(SQL)
-    .then(results => response.send(results.rows))
+    .then(results => response.send(results.rows).status(200))
     .catch(console.error);
 });
 
-app.get('*', (request, response) => response.status(404).send('This route does not exist'));
+// Handle all other bad endpoints
+app.get('*', (request, response) => {
+  response.status(404).send('404 Error: Page does not exist');
+});
+
+// Displays the server listening port (visual cue only)
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
