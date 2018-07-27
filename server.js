@@ -4,6 +4,9 @@
 const express = require('express');
 const cors = require('cors');
 const pg = require('pg');
+// TODO: review superagent what is this? 
+const superagent = require('superagent');
+
 
 // Application Setup
 const app = express();
@@ -29,6 +32,8 @@ app.get('/api/v1/books', (request, response) => {
     .then(results => response.send(results.rows).status(200))
     .catch(console.error);
 });
+//  checking with adminView 
+app.get('/api/v1/admin', (request, response) => response.send(TOKEN === parseInt(request.query.token)));
 
 // TODO: Check for functionality
 // request/response where info comes frm one book
@@ -48,9 +53,7 @@ app.get('/api/v1/books/:id', (request, response) => {
 app.post('/api/v1/books', (request, response) => {
   let {title, author, isbn, image_url, description} = request.body;
 
-  let SQL = `
-    INSERT INTO books(title, author, isbn, image_url, description) VALUES($1, $2, $3, $4, $5);
-  `;
+  let SQL = `INSERT INTO books(title, author, isbn, image_url, description) VALUES($1, $2, $3, $4, $5);`;
   let values = [title, author, isbn, image_url, description];
 
   client.query(SQL, values)
@@ -58,28 +61,26 @@ app.post('/api/v1/books', (request, response) => {
     .catch(console.error);
 });
 
-// TODO: Review 4:00
-// app.put('/api/v1/books/:id', (request, response) => {
-//   let SQL = `UPDATE books SET title=$1, author=$2, isbn=$3, image_url=$4`;
+//this should be behind a password
+app.put('/api/v1/books/:id', (request, response) => {
+  let {title, author, isbn, image_url, description}= request.body;
+  let SQL = `UPDATE books SET title=$1, author=$2, isbn=$3, image_url=$4, description=$5 WHERE book_id=$6;`;
+  let values = [title, author, isbn, image_url, description, request.params.id];
 
-//   let SQL = `
-//     INSERT INTO books(title, author, isbn, image_url, description) VALUES($1, $2, $3, $4, $5);
-//   `;
-//   let values = [title, author, isbn, image_url, description];
+  client.query(SQL, values)
+    .then(response.sendStatus(204))
+    .catch(console.error);
+});
 
-//   client.query(SQL, values)
-//     .then(response.sendStatus(201))
-//     .catch(console.error);
-// });
+//this should be behind a password
+app.delete('/api/v1/books/:id', (request, response) => {
+  let SQL = `DELETE FROM books WHERE book_id=$1;`;
+  let values = [request.params.id];
 
-// app.delete('/api/v1/books/:id', (request, response) => {
-//   let SQL = `DELETE FROM books WHERE book_id=$1`;
-//   let values = [req.params.id];
-
-//   client.query(SQL, values
-//     .then(() => response.sendStatus(204))
-//     .catch(console.error);
-// })
+  client.query(SQL, values)
+    .then(() => response.sendStatus(204))
+    .catch(console.error);
+});
 
 // Handle all other bad endpoints
 app.get('*', (request, response) => {
