@@ -5,13 +5,13 @@ const express = require('express');
 const cors = require('cors');
 const pg = require('pg');
 // TODO: review superagent what is this? 
-const superagent = require('superagent');
+// const superagent = require('superagent');
 
 
 // Application Setup
 const app = express();
 const PORT = process.env.PORT; //port assignment
-const TOKEN = process.env.TOKEN; // token assignment
+// const TOKEN = process.env.TOKEN; // token assignment
 
 // Database Setup
 let conString = process.env.DATABASE_URL;
@@ -35,7 +35,6 @@ app.get('/api/v1/books', (request, response) => {
 //  checking with adminView 
 app.get('/api/v1/admin', (request, response) => response.send(TOKEN === parseInt(request.query.token)));
 
-// TODO: Check for functionality
 // request/response where info comes frm one book
 app.get('/api/v1/books/:id', (request, response) => {
   let SQL = `
@@ -48,7 +47,6 @@ app.get('/api/v1/books/:id', (request, response) => {
     .catch(console.error);
 });
 
-// TODO: Review for functionality
 // Handle the posting of API data to database
 app.post('/api/v1/books', (request, response) => {
   let {title, author, isbn, image_url, description} = request.body;
