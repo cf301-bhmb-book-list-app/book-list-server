@@ -4,14 +4,13 @@
 const express = require('express');
 const cors = require('cors');
 const pg = require('pg');
-// TODO: review superagent what is this? 
-// const superagent = require('superagent');
+const superagent = require('superagent');
 
 
 // Application Setup
 const app = express();
 const PORT = process.env.PORT; //port assignment
-// const TOKEN = process.env.TOKEN; // token assignment
+const TOKEN = process.env.TOKEN; // token assignment
 
 // Database Setup
 let conString = process.env.DATABASE_URL;
@@ -32,6 +31,7 @@ app.get('/api/v1/books', (request, response) => {
     .then(results => response.send(results.rows).status(200))
     .catch(console.error);
 });
+
 //  checking with adminView 
 app.get('/api/v1/admin', (request, response) => response.send(TOKEN === parseInt(request.query.token)));
 
